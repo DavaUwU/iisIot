@@ -76,8 +76,15 @@
                 padding: 0.5rem 1rem;
             }
 
-            .navbar a {
+            .navbar-left {
                 float: left;
+            }
+
+            .navbar-right {
+                float: right;
+            }
+
+            .navbar a {
                 text-align: center;
                 padding: 12px;
                 color: white;
@@ -106,9 +113,17 @@
     </head>
     <body>
     <div class="navbar">
-        <a>Nevim</a>
-        <a>Kamo</a>
-        <a>Ni</a>
+        <div class="navbar-left">
+            <a href="{{ path('app_index') }}">Home</a>
+        </div>
+        <div class="navbar-right">
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Sign in</a>
+                <a href="{{ path('app_register') }}">Register</a>
+            {% endif %}
+        </div>
     </div>
         {% block body %}{% endblock %}
     </body>
