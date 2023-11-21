@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -37,6 +39,18 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $bAdmin = null;
+
+    #[ORM\OneToMany(mappedBy: 'Owner', targetEntity: System::class, orphanRemoval: true)]
+    private Collection $systems;
+
+    #[ORM\ManyToMany(targetEntity: System::class, mappedBy: 'User')]
+    private Collection $systemUser;
+
+    public function __construct()
+    {
+        $this->systems = new ArrayCollection();
+        $this->systemUser = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +154,63 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBAdmin(bool $bAdmin): static
     {
         $this->bAdmin = $bAdmin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, System>
+     */
+    public function getSystems(): Collection
+    {
+        return $this->systems;
+    }
+
+    public function addSystem(System $system): static
+    {
+        if (!$this->systems->contains($system)) {
+            $this->systems->add($system);
+            $system->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSystem(System $system): static
+    {
+        if ($this->systems->removeElement($system)) {
+            // set the owning side to null (unless already changed)
+            if ($system->getOwner() === $this) {
+                $system->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, System>
+     */
+    public function getSystemUser(): Collection
+    {
+        return $this->systemUser;
+    }
+
+    public function addSystemUser(System $systemUser): static
+    {
+        if (!$this->systemUser->contains($systemUser)) {
+            $this->systemUser->add($systemUser);
+            $systemUser->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSystemUser(System $systemUser): static
+    {
+        if ($this->systemUser->removeElement($systemUser)) {
+            $systemUser->removeUser($this);
+        }
 
         return $this;
     }

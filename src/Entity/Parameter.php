@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParameterRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ParameterRepository::class)]
@@ -24,6 +26,18 @@ class Parameter
 
     #[ORM\Column(nullable: true)]
     private ?float $FmaxValue = null;
+
+    #[ORM\ManyToOne(inversedBy: 'parameters')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Device $device = null;
+
+    #[ORM\OneToMany(mappedBy: 'parameter', targetEntity: KPI::class, orphanRemoval: true)]
+    private Collection $kpis;
+
+    public function __construct()
+    {
+        $this->kpis = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +88,48 @@ class Parameter
     public function setFmaxValue(?float $FmaxValue): static
     {
         $this->FmaxValue = $FmaxValue;
+
+        return $this;
+    }
+
+    public function getDevice(): ?Device
+    {
+        return $this->device;
+    }
+
+    public function setDevice(?Device $device): static
+    {
+        $this->device = $device;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, KPI>
+     */
+    public function getKpis(): Collection
+    {
+        return $this->kpis;
+    }
+
+    public function addKpi(KPI $kpi): static
+    {
+        if (!$this->kpis->contains($kpi)) {
+            $this->kpis->add($kpi);
+            $kpi->setParameter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKpi(KPI $kpi): static
+    {
+        if ($this->kpis->removeElement($kpi)) {
+            // set the owning side to null (unless already changed)
+            if ($kpi->getParameter() === $this) {
+                $kpi->setParameter(null);
+            }
+        }
 
         return $this;
     }

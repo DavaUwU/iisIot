@@ -19,6 +19,14 @@ class KPI
     #[ORM\Column(length: 255)]
     private ?string $expression = null;
 
+    #[ORM\ManyToOne(inversedBy: 'kpis')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Device $device = null;
+
+    #[ORM\ManyToOne(inversedBy: 'kpis')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Parameter $parameter = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +52,30 @@ class KPI
     public function setExpression(string $expression): static
     {
         $this->expression = $expression;
+
+        return $this;
+    }
+
+    public function getDevice(): ?Device
+    {
+        return $this->device;
+    }
+
+    public function setDevice(?Device $device): static
+    {
+        $this->device = $device;
+
+        return $this;
+    }
+
+    public function getParameter(): ?Parameter
+    {
+        return $this->parameter;
+    }
+
+    public function setParameter(?Parameter $parameter): static
+    {
+        $this->parameter = $parameter;
 
         return $this;
     }

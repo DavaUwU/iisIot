@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SystemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SystemRepository::class)]
@@ -19,6 +21,22 @@ class System
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\ManyToOne(inversedBy: 'systems')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Account $Owner = null;
+
+    #[ORM\ManyToMany(targetEntity: Account::class, inversedBy: 'systemUser')]
+    private Collection $User;
+
+    #[ORM\OneToMany(mappedBy: 'system', targetEntity: Device::class)]
+    private Collection $devices;
+
+    public function __construct()
+    {
+        $this->User = new ArrayCollection();
+        $this->devices = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,6 +63,72 @@ class System
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Account
+    {
+        return $this->Owner;
+    }
+
+    public function setOwner(?Account $Owner): static
+    {
+        $this->Owner = $Owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Account>
+     */
+    public function getUser(): Collection
+    {
+        return $this->User;
+    }
+
+    public function addUser(Account $user): static
+    {
+        if (!$this->User->contains($user)) {
+            $this->User->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Account $user): static
+    {
+        $this->User->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Device>
+     */
+    public function getDevices(): Collection
+    {
+        return $this->devices;
+    }
+
+    public function addDevice(Device $device): static
+    {
+        if (!$this->devices->contains($device)) {
+            $this->devices->add($device);
+            $device->setSystem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevice(Device $device): static
+    {
+        if ($this->devices->removeElement($device)) {
+            // set the owning side to null (unless already changed)
+            if ($device->getSystem() === $this) {
+                $device->setSystem(null);
+            }
+        }
 
         return $this;
     }
