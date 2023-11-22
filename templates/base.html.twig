@@ -120,8 +120,8 @@
             {% endif %}
         </div>
         <div class="navbar-right">
-            <a>New System</a>
             {% if app.user %}
+                <a href="{{ path('create_system') }}">New System</a>
                 <a href="{{ path('app_logout') }}">Logout</a>
             {% else %}
                 <a href="{{ path('app_login') }}">Sign in</a>
