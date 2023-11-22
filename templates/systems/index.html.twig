@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Hello SystemsController!{% endblock %}
 
 {% block body %}
 <style>
@@ -28,7 +28,7 @@
     }
 </style>
 
-    <h2>All Systems</h2>
+    <h2>My Systems</h2>
 
     <table>
         <thead>
@@ -43,7 +43,7 @@
             <tr>
                 <td>{{ system.name }}</td>
                 <td>{{ system.description }}</td>
-                <td>{{ system.owner.username }}</td>
+                <td>{{ system.owner.username }}</td> {# Replace with the correct property if needed #}
             </tr>
         {% else %}
             <tr>
