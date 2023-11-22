@@ -27,6 +27,7 @@ class DeviceFixtures extends Fixture
         $manager->persist($device2);
 
         $manager->flush();
+        $this->addReference('device', $device);
         $this->addReference('device2', $device2);
     }
 }
