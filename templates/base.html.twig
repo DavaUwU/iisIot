@@ -115,8 +115,10 @@
     <div class="navbar">
         <div class="navbar-left">
             <a href="{{ path('app_index') }}">Home</a>
+            <a>My Systems</a>
         </div>
         <div class="navbar-right">
+            <a>New System</a>
             {% if app.user %}
                 <a href="{{ path('app_logout') }}">Logout</a>
             {% else %}
