@@ -46,10 +46,14 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: System::class, mappedBy: 'User')]
     private Collection $systemUser;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Device::class, orphanRemoval: true)]
+    private Collection $devices;
+
     public function __construct()
     {
         $this->systems = new ArrayCollection();
         $this->systemUser = new ArrayCollection();
+        $this->devices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,6 +214,36 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->systemUser->removeElement($systemUser)) {
             $systemUser->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Device>
+     */
+    public function getDevices(): Collection
+    {
+        return $this->devices;
+    }
+
+    public function addDevice(Device $device): static
+    {
+        if (!$this->devices->contains($device)) {
+            $this->devices->add($device);
+            $device->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevice(Device $device): static
+    {
+        if ($this->devices->removeElement($device)) {
+            // set the owning side to null (unless already changed)
+            if ($device->getOwner() === $this) {
+                $device->setOwner(null);
+            }
         }
 
         return $this;

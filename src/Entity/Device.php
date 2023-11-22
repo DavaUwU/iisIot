@@ -33,6 +33,10 @@ class Device
     #[ORM\OneToMany(mappedBy: 'device', targetEntity: Parameter::class, orphanRemoval: true)]
     private Collection $parameters;
 
+    #[ORM\ManyToOne(inversedBy: 'devices')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Account $owner = null;
+
     public function __construct()
     {
         $this->kpis = new ArrayCollection();
@@ -148,6 +152,18 @@ class Device
                 $parameter->setDevice(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?Account
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Account $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }
