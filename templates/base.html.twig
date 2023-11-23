@@ -118,10 +118,18 @@
             {% if app.user %}
                 <a href="{{ path('app_systems') }}">My Systems</a>
             {% endif %}
+            {% if app.user %}
+                <a href="{{ path('app_device') }}">My Devices</a>
+            {% endif %}
         </div>
         <div class="navbar-right">
             {% if app.user %}
-                <a href="{{ path('create_system') }}">New System</a>
+                {% if app.request.attributes.get('_route') == 'app_systems' %}
+                    <a href="{{ path('create_system') }}">New System</a>
+                {% endif %}
+                {% if app.request.attributes.get('_route') == 'app_device' %}
+                    <a href="{{ path('create_device') }}">New Device</a>
+                {% endif %}
                 <a href="{{ path('app_logout') }}">Logout</a>
             {% else %}
                 <a href="{{ path('app_login') }}">Sign in</a>
