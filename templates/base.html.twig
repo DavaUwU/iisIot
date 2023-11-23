@@ -116,9 +116,10 @@
         <div class="navbar-left">
             <a href="{{ path('app_index') }}">Home</a>
             {% if app.user %}
+                {% if app.user.bAdmin %}
+                    <a href="{{ path('app_administration') }}">Administration</a>
+                {% endif %}
                 <a href="{{ path('app_systems') }}">My Systems</a>
-            {% endif %}
-            {% if app.user %}
                 <a href="{{ path('app_device') }}">My Devices</a>
             {% endif %}
         </div>

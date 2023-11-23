@@ -46,7 +46,7 @@ class SystemsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $system->setOwner($this->accountRepository->findOneBy(['username' => $user->getUserIdentifier()]));
+            $system->setOwner($this->accountRepository->find($user));
 
             $this->em->persist($system);
             $this->em->flush();
