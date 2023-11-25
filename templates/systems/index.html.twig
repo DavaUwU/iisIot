@@ -26,6 +26,22 @@
     tr:hover {
         background-color: #e9ecef;
     }
+
+    .delete-button {
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        background-color: #e74c3c;
+        border: none;
+        border-radius: 10px;
+    }
+
+    .delete-button:hover {
+        background-color: #d62c1a
+    }
 </style>
 
     <h2>My Systems</h2>
@@ -43,7 +59,8 @@
             <tr>
                 <td>{{ system.name }}</td>
                 <td>{{ system.description }}</td>
-                <td>{{ system.owner.username }}</td> {# Replace with the correct property if needed #}
+                <td>{{ system.owner.username }}</td>
+                <td><a href="{{ path('delete_system', {'id': system.id})}}" class="delete-button">Delete</a></td>
             </tr>
         {% else %}
             <tr>

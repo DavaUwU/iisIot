@@ -58,4 +58,14 @@ class SystemsController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/systems/delete/{id}', name: 'delete_system', methods: ['GET', 'DELETE'])]
+    public function delete($id): Response
+    {
+        $system = $this->systemRepository->find($id);
+        $this->em->remove($system);
+        $this->em->flush();
+
+        return  $this->redirectToRoute('app_systems');
+    }
 }

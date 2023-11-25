@@ -58,4 +58,14 @@ class DeviceController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/device/delete/{id}', name: 'delete_device', methods: ['GET', 'DELETE'])]
+    public function delete($id): Response
+    {
+        $device = $this->deviceRepository->find($id);
+        $this->em->remove($device);
+        $this->em->flush();
+
+        return  $this->redirectToRoute('app_device');
+    }
 }
