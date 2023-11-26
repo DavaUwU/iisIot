@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Device;
 use App\Entity\Parameter;
+use App\Form\AssignFormType;
 use App\Form\DeviceFormType;
 use App\Form\ParameterFormType;
 use App\Repository\AccountRepository;
@@ -33,10 +34,17 @@ class DeviceController extends AbstractController
     public function index(UserInterface $user): Response
     {
         $devices = $this->deviceRepository->findBy(['owner' => $user]);
+        $assignForms = [];
 
+        foreach ($devices as $device) {
+            $assignForms[$device->getId()] = $this->createForm(AssignFormType::class, $device, [
+                'action' => $this->generateUrl('device_assign_system', ['id' => $device->getId()]),
+            ])->createView();
+        }
 
         return $this->render('device/index.html.twig', [
             'devices' => $devices,
+            'AssignFormType' => $assignForms, // Pass this array to the template
         ]);
     }
 
@@ -90,6 +98,28 @@ class DeviceController extends AbstractController
 
         return $this->render('device/add_parameter.html.twig', [
             'form' => $form->createView(),
+            'device' => $device,
+        ]);
+    }
+
+    #[Route('/device/{id}/assign', name: 'device_assign_system', methods: ['POST'])]
+    public function assignSystemToDevice(Request $request, Device $device, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AssignFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $system = $form->get('system')->getData();
+            $device->setSystem($system);
+            $entityManager->persist($device);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Device assigned to system successfully.');
+
+            return $this->redirectToRoute('app_device');
+        }
+        return $this->render('device/index.html.twig', [
+            'AssignFormType' => $form->createView(),
             'device' => $device,
         ]);
     }

@@ -52,6 +52,7 @@
             <th>System Name</th>
             <th>Description</th>
             <th>Owner</th>
+            <th>Devices</th>
         </tr>
         </thead>
         <tbody>
@@ -60,6 +61,15 @@
                 <td>{{ system.name }}</td>
                 <td>{{ system.description }}</td>
                 <td>{{ system.owner.username }}</td>
+                <td>
+                    <ul>
+                        {% for device in system.devices %}
+                            <li>{{ device.label }}</li>
+                        {% else %}
+                            <li>No devices assigned</li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td><a href="{{ path('delete_system', {'id': system.id})}}" class="delete-button">Delete</a></td>
             </tr>
         {% else %}

@@ -40,6 +40,9 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $bAdmin = null;
 
+   /* #[ORM\Column]
+    private ?bool $bBroker = null;*/
+
     #[ORM\OneToMany(mappedBy: 'Owner', targetEntity: System::class, orphanRemoval: true)]
     private Collection $systems;
 
@@ -162,6 +165,17 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+  /*  public function isBroker(): ?bool
+    {
+        return $this->bBroker;
+    }
+
+    public function setBroker(bool $bBroker): static
+    {
+        $this->bAdmin = $bBroker;
+
+        return $this;
+    }*/
     /**
      * @return Collection<int, System>
      */
