@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Device;
+use App\Entity\Parameter;
 use App\Form\DeviceFormType;
+use App\Form\ParameterFormType;
 use App\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -67,5 +69,28 @@ class DeviceController extends AbstractController
         $this->em->flush();
 
         return  $this->redirectToRoute('app_device');
+    }
+
+    #[Route('/device/{id}/add-parameter', name: 'add_parameter_to_device')]
+    public function addParameter(Request $request, Device $device): Response
+    {
+        $parameter = new Parameter();
+        $form = $this->createForm(ParameterFormType::class, $parameter);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $parameter = $form->getData();
+            $device->addParameter($parameter);
+
+            $this->em->persist($parameter);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_device', ['id' => $device->getId()]);
+        }
+
+        return $this->render('device/add_parameter.html.twig', [
+            'form' => $form->createView(),
+            'device' => $device,
+        ]);
     }
 }
