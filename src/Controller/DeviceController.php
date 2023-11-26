@@ -39,6 +39,8 @@ class DeviceController extends AbstractController
         foreach ($devices as $device) {
             $assignForms[$device->getId()] = $this->createForm(AssignFormType::class, $device, [
                 'action' => $this->generateUrl('device_assign_system', ['id' => $device->getId()]),
+                'user' => $user, // Pass the UserInterface object
+                'method' => 'POST',
             ])->createView();
         }
 
@@ -103,9 +105,11 @@ class DeviceController extends AbstractController
     }
 
     #[Route('/device/{id}/assign', name: 'device_assign_system', methods: ['POST'])]
-    public function assignSystemToDevice(Request $request, Device $device, EntityManagerInterface $entityManager): Response
+    public function assignSystemToDevice(Request $request, Device $device, EntityManagerInterface $entityManager, UserInterface $user): Response
     {
-        $form = $this->createForm(AssignFormType::class);
+        $form = $this->createForm(AssignFormType::class, $device, [
+        'user' => $user, // Pass the UserInterface object as an option
+    ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -118,9 +122,11 @@ class DeviceController extends AbstractController
 
             return $this->redirectToRoute('app_device');
         }
-        return $this->render('device/index.html.twig', [
+        /*return $this->render('device/index.html.twig', [
             'AssignFormType' => $form->createView(),
             'device' => $device,
-        ]);
+            'user' => $user,
+        ]);*/
+        return $this->redirectToRoute('app_device');
     }
 }
