@@ -96,6 +96,8 @@
                                                     <span class="{{ isTrue ? 'text-danger' : 'text-good' }}">
                                                         {{ kpi.expression }}
                                                     </span>
+                                                    <a href="{{ path('edit_kpi',{'deviceId': device.id,
+                                                    'kpiId': kpi.id}) }}">Edit</a>
                                                 </li>
                                             {% endfor %}
                                         </ul>

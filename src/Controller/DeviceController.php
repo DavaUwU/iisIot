@@ -11,6 +11,7 @@ use App\Form\DeviceFormType;
 use App\Form\KPIFormType;
 use App\Form\ParameterFormType;
 use App\Repository\AccountRepository;
+use App\Repository\KPIRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\DeviceRepository;
@@ -22,15 +23,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class DeviceController extends AbstractController
 {
     private $deviceRepository;
-    private $em;
     private $accountRepository;
+    private $kpiRepository;
+    private $em;
 
     public function __construct(DeviceRepository $deviceRepository, AccountRepository $accountRepository,
-                                EntityManagerInterface $em)
+                                KPIRepository $kpiRepository, EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->deviceRepository = $deviceRepository;
         $this->accountRepository = $accountRepository;
+        $this->kpiRepository = $kpiRepository;
     }
 
     #[Route('/device', name: 'app_device')]
@@ -122,6 +125,28 @@ class DeviceController extends AbstractController
             $this->em->flush();
 
             return $this->redirectToRoute('app_device', ['id' => $device->getId()]);
+        }
+
+        return $this->render('device/add_kpi.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/device/{deviceId}/edit-kpi/{kpiId}', name: 'edit_kpi')]
+    public function editKPI(Request $request, $deviceId, $kpiId): Response
+    {
+        $KPI = $this->kpiRepository->find($kpiId);
+        $device = $this->deviceRepository->find($deviceId);
+        $form = $this->createForm(KPIFormType::class, $KPI, ['device' => $device->getId()]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $KPI = $form->getData();
+
+            $this->em->persist($KPI);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_device');
         }
 
         return $this->render('device/add_kpi.html.twig', [
