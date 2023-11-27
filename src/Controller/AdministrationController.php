@@ -62,4 +62,15 @@ class AdministrationController extends AbstractController
         ]);
 
     }
+
+    #[Route('/administration/userDelete/{id}', name: 'administration_userDelete')]
+    public function deleteUser(Request $request, int $id): Response
+    {
+        $user = $this->accountRepository->find($id);
+
+        $this->em->remove($user);
+        $this->em->flush();
+
+        return $this->redirectToRoute('app_administration');
+    }
 }

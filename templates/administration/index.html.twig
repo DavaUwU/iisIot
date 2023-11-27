@@ -26,6 +26,22 @@
         tr:hover {
             background-color: #e9ecef;
         }
+
+        .delete-button {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #e74c3c;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .delete-button:hover {
+            background-color: #d62c1a
+        }
     </style>
 
     <h2>Users:</h2>
@@ -38,6 +54,7 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Admin</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -48,6 +65,9 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone }}</td>
                 <td>{{ 'ROLE_ADMIN' in user.getRoles() ? "Yes" : "No" }}</td>
+                {% if 'ROLE_ADMIN' not in user.getRoles() %}
+                    <td><a href="{{ path('administration_userDelete', {'id': user.id})}}" class="delete-button">Delete</a></td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>

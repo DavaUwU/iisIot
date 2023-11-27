@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DeviceController!{% endblock %}
+{% block title %}My devices{% endblock %}
 
 {% block body %}
 <style>
@@ -109,7 +109,6 @@
                         No parameters
                     {% endif %}
                 </td>
-                <td><a href="{{ path('delete_device', {'id': device.id})}}" class="delete-button">Delete</a></td>
                 <td>
                     Add
                     <a href="{{ path('add_parameter_to_device', {'id': device.id}) }}" class="basic-button">Parameter</a>
@@ -122,6 +121,7 @@
                     <button type="submit">Assign</button>
                     {{ form_end(AssignFormType[device.id]) }}
                 </td>
+                <td><a href="{{ path('delete_device', {'id': device.id})}}" class="delete-button">Delete</a></td>
             </tr>
         {% else %}
             <tr>
