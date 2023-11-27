@@ -52,6 +52,14 @@
         color: #d62c1a;
     }
 
+    .text-good {
+        color: green;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
 </style>
 
     <h2>My Systems</h2>
@@ -63,6 +71,7 @@
             <th>Description</th>
             <th>Owner</th>
             <th>Devices</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -74,14 +83,87 @@
                 <td>
                     <ul>
                         {% for device in system.devices %}
-                            <li>{{ device.label }} <a href="{{ path('delete_device_from_system',
+                            <li><strong>{{ device.label }}</strong> <a href="{{ path('delete_device_from_system',
                                     {'systemId': system.id, 'deviceId': device.id})}}" class="delete-button-device">Delete</a></li>
+                            <ul>
+                                {% for parameter in device.parameters %}
+                                    <li>
+                                        <strong>{{ parameter.name }}:</strong> {{ parameter.value }}
+                                        {% if parameter.kpis|length > 0 %}
+                                            <ul>
+                                                {% for kpi in parameter.kpis %}
+                                                    <li>
+                                                        <strong>{{ kpi.name }}:</strong>
+                                                        {% set isTrue = parameter.isKpiExpressionTrue(kpi) %}
+                                                        <span class="{{ isTrue ? 'text-danger' : 'text-good' }}">
+                                                            {{ kpi.expression }}
+                                                        </span>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         {% else %}
                             <li>No devices assigned</li>
                         {% endfor %}
                     </ul>
                 </td>
                 <td><a href="{{ path('delete_system', {'id': system.id})}}" class="delete-button">Delete</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No systems found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<h2>Shared Systems</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>System Name</th>
+            <th>Description</th>
+            <th>Owner</th>
+            <th>Devices</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for system in sharedsystems %}
+            <tr>
+                <td>{{ system.name }}</td>
+                <td>{{ system.description }}</td>
+                <td>{{ system.owner.username }}</td>
+                <td>
+                    <ul>
+                        {% for device in system.devices %}
+                            <li><strong>{{ device.label }}</strong></li>
+                            <ul>
+                                {% for parameter in device.parameters %}
+                                    <li>
+                                        <strong>{{ parameter.name }}:</strong> {{ parameter.value }}
+                                        {% if parameter.kpis|length > 0 %}
+                                            <ul>
+                                                {% for kpi in parameter.kpis %}
+                                                    <li>
+                                                        <strong>{{ kpi.name }}:</strong>
+                                                        {% set isTrue = parameter.isKpiExpressionTrue(kpi) %}
+                                                        <span class="{{ isTrue ? 'text-danger' : 'text-good' }}">
+                                                            {{ kpi.expression }}
+                                                        </span>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <li>No devices assigned</li>
+                        {% endfor %}
+                    </ul>
+                </td>
             </tr>
         {% else %}
             <tr>

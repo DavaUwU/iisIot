@@ -37,9 +37,11 @@ class SystemsController extends AbstractController
     {
 
         $systems = $this->systemRepository->findBy(['Owner' => $user]);
+        $sharedsystems = $this->accountRepository->find($user)->getSystemUser();
 
         return $this->render('systems/index.html.twig', [
             'systems' => $systems,
+            'sharedsystems' => $sharedsystems,
         ]);
     }
 
