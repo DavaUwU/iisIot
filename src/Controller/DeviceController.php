@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Device;
+use App\Entity\KPI;
 use App\Entity\Parameter;
 use App\Form\AssignFormType;
 use App\Form\DeviceFormType;
+use App\Form\KPIFormType;
 use App\Form\ParameterFormType;
 use App\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -101,6 +103,28 @@ class DeviceController extends AbstractController
         return $this->render('device/add_parameter.html.twig', [
             'form' => $form->createView(),
             'device' => $device,
+        ]);
+    }
+
+    #[Route('/device/{id}/add-kpi', name: 'add_kpi_to_device')]
+    public function addKPI(Request $request, Device $device): Response
+    {
+        $KPI = new KPI();
+        $form = $this->createForm(KPIFormType::class, $KPI, ['device' => $device->getId()]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $KPI = $form->getData();
+            $device->addKpi($KPI);
+
+            $this->em->persist($KPI);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_device', ['id' => $device->getId()]);
+        }
+
+        return $this->render('device/add_kpi.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

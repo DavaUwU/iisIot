@@ -73,7 +73,12 @@
                     {% endif %}
                 </td>
                 <td><a href="{{ path('delete_device', {'id': device.id})}}" class="delete-button">Delete</a></td>
-                <td><a href="{{ path('add_parameter_to_device', {'id': device.id}) }}">Add Parameter</a></td>
+                <td>
+                    Add
+                    <a href="{{ path('add_parameter_to_device', {'id': device.id}) }}">Parameter</a>
+                    /
+                    <a href="{{ path('add_kpi_to_device', {'id': device.id}) }}">KPI</a>
+                </td>
                 <td>
                     {{ form_start(AssignFormType[device.id]) }}
                     {{ form_row(AssignFormType[device.id].system) }}
