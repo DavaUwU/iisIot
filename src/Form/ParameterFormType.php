@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Parameter;
+use Doctrine\DBAL\Types\StringType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +21,9 @@ class ParameterFormType extends AbstractType
         else
         {
             $builder
-                ->add('name')
+                ->add('name', StringType::class, [
+                    'label' => 'name*',
+                ])
                 ->add('minValue')
                 ->add('FmaxValue');
         }

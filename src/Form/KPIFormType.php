@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\KPI;
 use App\Entity\Parameter;
 use App\Repository\ParameterRepository;
+use Doctrine\DBAL\Types\StringType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,12 +17,16 @@ class KPIFormType extends AbstractType
     {
         $device = $options['device'];
         $builder
-            ->add('name')
-            ->add('expression')
+            ->add('name', StringType::class, [
+                'label' => 'name*',
+            ])
+            ->add('expression', StringType::class, [
+                'label' => 'expression*',
+            ])
             ->add('parameter', EntityType::class, [
                 'class' => Parameter::class,
                 'choice_label' => 'name',
-                'label' => 'Parameter',
+                'label' => 'Parameter*',
                 'placeholder' => 'Choose a Parameter',
                 'query_builder' => function (ParameterRepository $sr) use ($device) {
                     return $sr->createQueryBuilder('p')
