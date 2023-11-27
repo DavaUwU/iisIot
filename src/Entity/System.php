@@ -29,7 +29,7 @@ class System
     #[ORM\ManyToMany(targetEntity: Account::class, inversedBy: 'systemUser')]
     private Collection $User;
 
-    #[ORM\OneToMany(mappedBy: 'system', targetEntity: Device::class)]
+    #[ORM\ManyToMany(targetEntity: Device::class, inversedBy: 'systems')]
     private Collection $devices;
 
     #[ORM\OneToMany(mappedBy: 'system', targetEntity: ShareRequest::class, orphanRemoval: true)]
@@ -118,8 +118,8 @@ class System
     public function addDevice(Device $device): static
     {
         if (!$this->devices->contains($device)) {
-            $this->devices->add($device);
-            $device->setSystem($this);
+            $this->devices[] = $device;
+            $device->addSystem($this);
         }
 
         return $this;
@@ -128,10 +128,7 @@ class System
     public function removeDevice(Device $device): static
     {
         if ($this->devices->removeElement($device)) {
-            // set the owning side to null (unless already changed)
-            if ($device->getSystem() === $this) {
-                $device->setSystem(null);
-            }
+            $device->removeSystem($this);
         }
 
         return $this;

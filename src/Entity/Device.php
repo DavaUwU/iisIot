@@ -24,8 +24,8 @@ class Device
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $userAlias = null;
 
-    #[ORM\ManyToOne(inversedBy: 'devices')]
-    private ?System $system = null;
+    #[ORM\ManyToMany(targetEntity: System::class, mappedBy: 'devices')]
+    private Collection $systems;
 
     #[ORM\OneToMany(mappedBy: 'device', targetEntity: KPI::class, orphanRemoval: true)]
     private Collection $kpis;
@@ -41,6 +41,7 @@ class Device
     {
         $this->kpis = new ArrayCollection();
         $this->parameters = new ArrayCollection();
+        $this->systems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,14 +85,26 @@ class Device
         return $this;
     }
 
-    public function getSystem(): ?System
+    public function getSystems(): Collection
     {
-        return $this->system;
+        return $this->systems;
     }
 
-    public function setSystem(?System $system): static
+    public function addSystem(System $system): self
     {
-        $this->system = $system;
+        if (!$this->systems->contains($system)) {
+            $this->systems[] = $system;
+            $system->addDevice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSystem(System $system): self
+    {
+        if ($this->systems->removeElement($system)) {
+            $system->removeDevice($this);
+        }
 
         return $this;
     }
