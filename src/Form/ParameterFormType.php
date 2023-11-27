@@ -11,17 +11,27 @@ class ParameterFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('name')
-            ->add('minValue')
-            ->add('FmaxValue')
-        ;
+        $broker = $options['broker'];
+        if($broker)
+        {
+            $builder
+                ->add('value');
+        }
+        else
+        {
+            $builder
+                ->add('name')
+                ->add('minValue')
+                ->add('FmaxValue');
+        }
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Parameter::class,
+            'broker' => false,
         ]);
     }
 }

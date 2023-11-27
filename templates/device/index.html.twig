@@ -43,6 +43,13 @@
         background-color: #d62c1a
     }
 
+    .text-good {
+        color: green;
+    }
+
+    .text-danger {
+        color: red;
+    }
 </style>
 
     <h2>My Devices</h2>
@@ -65,7 +72,22 @@
                 <td>{% if device.parameters|length > 0 %}
                         <ul>
                             {% for parameter in device.parameters %}
-                                <li>{{ parameter.name }}: {{ parameter.value }}</li>
+                                <li>
+                                    <strong>{{ parameter.name }}:</strong> {{ parameter.value }}
+                                    {% if parameter.kpis|length > 0 %}
+                                        <ul>
+                                            {% for kpi in parameter.kpis %}
+                                                <li>
+                                                    <strong>{{ kpi.name }}:</strong>
+                                                    {% set isTrue = parameter.isKpiExpressionTrue(kpi) %}
+                                                    <span class="{{ isTrue ? 'text-danger' : 'text-good' }}">
+                                                        {{ kpi.expression }}
+                                                    </span>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
                             {% endfor %}
                         </ul>
                     {% else %}

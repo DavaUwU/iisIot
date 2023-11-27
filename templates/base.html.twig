@@ -119,9 +119,14 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_administration') }}">Administration</a>
                 {% endif %}
-                <a href="{{ path('app_systems') }}">My Systems</a>
-                <a href="{{ path('app_device') }}">My Devices</a>
-                <a href="{{ path('app_request') }}">Requests</a>
+                {% if (is_granted('ROLE_USER') and not is_granted('ROLE_BROKER')) or is_granted('ROLE_ADMIN')%}
+                    <a href="{{ path('app_systems') }}">My Systems</a>
+                    <a href="{{ path('app_device') }}">My Devices</a>
+                    <a href="{{ path('app_request') }}">Requests</a>
+                {% endif %}
+                {% if is_granted('ROLE_BROKER') %}
+                    <a href="{{ path('app_broker') }}">All Devices</a>
+                {% endif %}
             {% endif %}
         </div>
         <div class="navbar-right">

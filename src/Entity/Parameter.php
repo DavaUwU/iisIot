@@ -133,4 +133,24 @@ class Parameter
 
         return $this;
     }
+
+    public function isKpiExpressionTrue(KPI $kpi): bool
+    {
+        $expression = $kpi->getExpression();
+        $value = $this->getValue();
+
+        $operator = $expression[0];
+        $number = substr($expression, 1);
+
+        switch ($operator) {
+            case '>':
+                return $value > $number;
+            case '<':
+                return $value < $number;
+            case '=':
+                return $value == $number;
+            default:
+                return false;
+        }
+    }
 }
