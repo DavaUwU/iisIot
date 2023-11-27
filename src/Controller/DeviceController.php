@@ -6,7 +6,7 @@ use App\Entity\Device;
 use App\Entity\KPI;
 use App\Entity\Parameter;
 use App\Entity\System;
-use App\Form\AssignFormType;
+use App\Form\DeviceAssignFormType;
 use App\Form\DeviceFormType;
 use App\Form\KPIFormType;
 use App\Form\ParameterFormType;
@@ -37,10 +37,19 @@ class DeviceController extends AbstractController
     public function index(UserInterface $user): Response
     {
         $devices = $this->deviceRepository->findBy(['owner' => $user]);
+        $assignForms = [];
 
+        foreach ($devices as $device) {
+            $assignForms[$device->getId()] = $this->createForm(DeviceAssignFormType::class, $device, [
+                'action' => $this->generateUrl('device_assign_system', ['id' => $device->getId()]),
+                'user' => $user, // Pass the UserInterface object
+                'method' => 'POST',
+            ])->createView();
+        }
 
         return $this->render('device/index.html.twig', [
             'devices' => $devices,
+            'AssignFormType' => $assignForms,
         ]);
     }
 
@@ -120,5 +129,30 @@ class DeviceController extends AbstractController
         ]);
     }
 
+    #[Route('/device/{id}/assign', name: 'device_assign_system', methods: ['POST'])]
+    public function assignSystemToDevice(Request $request, Device $device, EntityManagerInterface $entityManager, UserInterface $user): Response
+    {
+        $form = $this->createForm(DeviceAssignFormType::class, $device, [
+            'user' => $user, // Pass the UserInterface object as an option
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $system = $form->get('system')->getData();
+            $device->addSystem($system);
+            $entityManager->persist($device);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Device assigned to system successfully.');
+
+            return $this->redirectToRoute('app_device');
+        }
+        /*return $this->render('device/index.html.twig', [
+            'AssignFormType' => $form->createView(),
+            'device' => $device,
+            'user' => $user,
+        ]);*/
+        return $this->redirectToRoute('app_device');
+    }
 
 }

@@ -79,6 +79,12 @@
                     /
                     <a href="{{ path('add_kpi_to_device', {'id': device.id}) }}">KPI</a>
                 </td>
+                <td>
+                    {{ form_start(AssignFormType[device.id]) }}
+                    {{ form_row(AssignFormType[device.id].system) }}
+                    <button type="submit">Assign</button>
+                    {{ form_end(AssignFormType[device.id]) }}
+                </td>
             </tr>
         {% else %}
             <tr>
