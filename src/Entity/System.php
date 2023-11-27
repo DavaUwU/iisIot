@@ -32,10 +32,14 @@ class System
     #[ORM\OneToMany(mappedBy: 'system', targetEntity: Device::class)]
     private Collection $devices;
 
+    #[ORM\OneToMany(mappedBy: 'system', targetEntity: ShareRequest::class, orphanRemoval: true)]
+    private Collection $shareRequests;
+
     public function __construct()
     {
         $this->User = new ArrayCollection();
         $this->devices = new ArrayCollection();
+        $this->shareRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +131,36 @@ class System
             // set the owning side to null (unless already changed)
             if ($device->getSystem() === $this) {
                 $device->setSystem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ShareRequest>
+     */
+    public function getShareRequests(): Collection
+    {
+        return $this->shareRequests;
+    }
+
+    public function addShareRequest(ShareRequest $shareRequest): static
+    {
+        if (!$this->shareRequests->contains($shareRequest)) {
+            $this->shareRequests->add($shareRequest);
+            $shareRequest->setSystem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShareRequest(ShareRequest $shareRequest): static
+    {
+        if ($this->shareRequests->removeElement($shareRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($shareRequest->getSystem() === $this) {
+                $shareRequest->setSystem(null);
             }
         }
 

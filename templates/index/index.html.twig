@@ -36,6 +36,9 @@
             <th>System Name</th>
             <th>Description</th>
             <th>Owner</th>
+            {% if app.user %}
+                <th></th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -44,6 +47,9 @@
                 <td>{{ system.name }}</td>
                 <td>{{ system.description }}</td>
                 <td>{{ system.owner.username }}</td>
+                {% if app.user %}
+                    <td><a href="{{ path('request_create', {'id': system.id})}}">Request sharing</a></td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>

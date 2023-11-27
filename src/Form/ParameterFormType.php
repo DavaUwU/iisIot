@@ -13,7 +13,6 @@ class ParameterFormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('value')
             ->add('minValue')
             ->add('FmaxValue')
         ;

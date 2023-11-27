@@ -52,11 +52,15 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Device::class, orphanRemoval: true)]
     private Collection $devices;
 
+    #[ORM\OneToMany(mappedBy: 'requester', targetEntity: ShareRequest::class, orphanRemoval: true)]
+    private Collection $shareRequests;
+
     public function __construct()
     {
         $this->systems = new ArrayCollection();
         $this->systemUser = new ArrayCollection();
         $this->devices = new ArrayCollection();
+        $this->shareRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +261,36 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($device->getOwner() === $this) {
                 $device->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ShareRequest>
+     */
+    public function getShareRequests(): Collection
+    {
+        return $this->shareRequests;
+    }
+
+    public function addShareRequest(ShareRequest $shareRequest): static
+    {
+        if (!$this->shareRequests->contains($shareRequest)) {
+            $this->shareRequests->add($shareRequest);
+            $shareRequest->setRequester($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShareRequest(ShareRequest $shareRequest): static
+    {
+        if ($this->shareRequests->removeElement($shareRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($shareRequest->getRequester() === $this) {
+                $shareRequest->setRequester(null);
             }
         }
 
