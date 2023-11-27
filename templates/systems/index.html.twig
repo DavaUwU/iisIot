@@ -42,6 +42,16 @@
     .delete-button:hover {
         background-color: #d62c1a
     }
+
+    .delete-button-device {
+        text-decoration: none;
+        color: #e74c3c;
+    }
+
+    .delete-button-device:hover {
+        color: #d62c1a;
+    }
+
 </style>
 
     <h2>My Systems</h2>
@@ -65,7 +75,7 @@
                     <ul>
                         {% for device in system.devices %}
                             <li>{{ device.label }} <a href="{{ path('delete_device_from_system',
-                                    {'systemId': system.id, 'deviceId': device.id})}}">Delete</a></li>
+                                    {'systemId': system.id, 'deviceId': device.id})}}" class="delete-button-device">Delete</a></li>
                         {% else %}
                             <li>No devices assigned</li>
                         {% endfor %}

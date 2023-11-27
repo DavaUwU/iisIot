@@ -26,6 +26,15 @@
     tr:hover {
         background-color: #e9ecef;
     }
+
+    .basic-button {
+        text-decoration: none;
+        color: #0011ff;
+    }
+
+    .basic-button:hover {
+        color: #030ba2;
+    }
 </style>
     <h2>Devices</h2>
 
@@ -49,7 +58,7 @@
                             {% for parameter in device.parameters %}
                                 <li>
                                     <strong>{{ parameter.name }}:</strong> {{ parameter.value }}
-                                    <a href="{{ path('edit_parameter_value', {'id': parameter.id}) }}">Edit</a>
+                                    <a href="{{ path('edit_parameter_value', {'id': parameter.id}) }}" class="basic-button">Edit</a>
                                 </li>
                             {% endfor %}
                         </ul>

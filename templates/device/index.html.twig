@@ -50,6 +50,19 @@
     .text-danger {
         color: red;
     }
+
+    .basic-button {
+        padding: 3px 3px;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #0011ff;
+        border: none;
+        border-radius: 10px;
+    }
+
+    .basic-button:hover {
+        background-color: #0010a9;
+    }
 </style>
 
     <h2>My Devices</h2>
@@ -97,9 +110,9 @@
                 <td><a href="{{ path('delete_device', {'id': device.id})}}" class="delete-button">Delete</a></td>
                 <td>
                     Add
-                    <a href="{{ path('add_parameter_to_device', {'id': device.id}) }}">Parameter</a>
+                    <a href="{{ path('add_parameter_to_device', {'id': device.id}) }}" class="basic-button">Parameter</a>
                     /
-                    <a href="{{ path('add_kpi_to_device', {'id': device.id}) }}">KPI</a>
+                    <a href="{{ path('add_kpi_to_device', {'id': device.id}) }}" class="basic-button">KPI</a>
                 </td>
                 <td>
                     {{ form_start(AssignFormType[device.id]) }}
