@@ -13,7 +13,7 @@ class DeviceFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('label', StringType::class, [
+            ->add('label', null, [
                 'label' => 'label*',
             ])
             ->add('description')

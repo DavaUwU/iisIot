@@ -21,7 +21,7 @@ class ParameterFormType extends AbstractType
         else
         {
             $builder
-                ->add('name', StringType::class, [
+                ->add('name', null, [
                     'label' => 'name*',
                 ])
                 ->add('minValue')

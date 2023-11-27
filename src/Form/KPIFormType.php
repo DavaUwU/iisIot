@@ -17,10 +17,10 @@ class KPIFormType extends AbstractType
     {
         $device = $options['device'];
         $builder
-            ->add('name', StringType::class, [
+            ->add('name', null, [
                 'label' => 'name*',
             ])
-            ->add('expression', StringType::class, [
+            ->add('expression', null, [
                 'label' => 'expression*',
             ])
             ->add('parameter', EntityType::class, [
