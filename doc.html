@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>Projekt IIS</title>
+	<meta name="generator" content="LibreOffice 7.3.7.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2023-11-27T23:11:58.835002566"/>
+	<meta name="Originator" content="Microsoft Word 15"/>
+	<meta name="ProgId" content="Word.Document"/>
+	<style type="text/css">
+		@page { size: 21cm 29.7cm; margin-left: 2cm; margin-right: 1cm; margin-top: 1cm; margin-bottom: 1cm }
+		p { color: #000000; line-height: 115%; margin-bottom: 0.25cm; background: transparent }
+		h1 { color: #000000; margin-bottom: 0.21cm; background: transparent; page-break-after: avoid }
+		h1.western { font-family: "Liberation Serif", serif; font-size: 24pt; font-weight: bold }
+		h1.cjk { font-family: "Noto Serif CJK SC"; font-size: 24pt; font-weight: bold }
+		h1.ctl { font-family: "Lohit Devanagari"; font-size: 24pt; font-weight: bold }
+		h2 { color: #000000; margin-top: 0.35cm; margin-bottom: 0.21cm; background: transparent; page-break-after: avoid }
+		h2.western { font-family: "Liberation Serif", serif; font-size: 18pt; font-weight: bold }
+		h2.cjk { font-family: "Noto Serif CJK SC"; font-size: 18pt; font-weight: bold }
+		h2.ctl { font-family: "Lohit Devanagari"; font-size: 18pt; font-weight: bold }
+		h3 { color: #000000; margin-top: 0.25cm; margin-bottom: 0.21cm; background: transparent; page-break-after: avoid }
+		h3.western { font-family: "Liberation Serif", serif; font-size: 14pt; font-weight: bold }
+		h3.cjk { font-family: "Noto Serif CJK SC"; font-size: 14pt; font-weight: bold }
+		h3.ctl { font-family: "Lohit Devanagari"; font-size: 14pt; font-weight: bold }
+		a:link { color: #0000ff; text-decoration: underline }
+		a:visited { color: #800080; text-decoration: underline }
+	</style>
+</head>
+<body lang="cs-CZ" text="#000000" link="#0000ff" vlink="#800080" dir="ltr"><h1 class="western">
+IOT správa zařízení</h1>
+<p class="msonormal" style="margin-top: 0.21cm"><b>Autoři</b></p>
+<p class="msonormal" style="margin-left: 1.27cm">Antonín Štoll
+<a href="mailto:xstoll01@stud.fit.vutbr.cz">xstoll01@stud.fit.vutbr.cz</a>
+– Databáze, Uživatelé, Přidávání parametrů/KPI</p>
+<p class="msonormal" style="margin-left: 1.27cm">David Zahálka
+<a href="mailto:xzahal03@stud.fit.vutbr.cz">xzahal03@stud.fit.vutbr.cz</a>
+– Frontend, Device/System</p>
+<p class="msonormal" style="margin-top: 0.21cm"><b>URL aplikace</b></p>
+<p class="msonormal" style="margin-left: 1.27cm">http://51.20.84.74/</p>
+<h2 class="western">Uživatelé systému pro testování</h2>
+<table width="306" cellpadding="2" cellspacing="0">
+	<col width="63"/>
+
+	<col width="87"/>
+
+	<col width="142"/>
+
+	<tr>
+		<td width="63" style="border: 1.00pt solid #000000; padding: 0.05cm"><p class="msonormal">
+			<b>Login</b></p>
+		</td>
+		<td width="87" style="border-top: 1.00pt solid #000000; border-bottom: 1.00pt solid #000000; border-left: none; border-right: 1.00pt solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0cm; padding-right: 0.05cm"><p class="msonormal">
+			<b>Heslo</b></p>
+		</td>
+		<td width="142" style="border-top: 1.00pt solid #000000; border-bottom: 1.00pt solid #000000; border-left: none; border-right: 1.00pt solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0cm; padding-right: 0.05cm"><p class="msonormal">
+			<b>Role</b></p>
+		</td>
+	</tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr>
+		<td width="63" style="border-top: none; border-bottom: 1.00pt solid #000000; border-left: 1.00pt solid #000000; border-right: 1.00pt solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0.05cm"><p class="msonormal">
+			admin</p>
+		</td>
+		<td width="87" style="border-top: none; border-bottom: 1.00pt solid #000000; border-left: none; border-right: 1.00pt solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0cm; padding-right: 0.05cm"><p class="msonormal">
+			adminPass</p>
+		</td>
+		<td width="142" style="border-top: none; border-bottom: 1.00pt solid #000000; border-left: none; border-right: 1.00pt solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0cm; padding-right: 0.05cm"><p class="msonormal">
+			Administrátor</p>
+		</td>
+	</tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr>
+		<td width="63" style="border-top: none; border-bottom: 1.00pt solid #000000; border-left: 1.00pt solid #000000; border-right: 1.00pt solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0.05cm"><p class="msonormal">
+			broker</p>
+		</td>
+		<td width="87" style="border-top: none; border-bottom: 1.00pt solid #000000; border-left: none; border-right: 1.00pt solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0cm; padding-right: 0.05cm"><p class="msonormal">
+			brokerPass</p>
+		</td>
+		<td width="142" style="border-top: none; border-bottom: 1.00pt solid #000000; border-left: none; border-right: 1.00pt solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0cm; padding-right: 0.05cm"><p class="msonormal">
+			Broker</p>
+		</td>
+	</tr>
+</table>
+<h3 class="western">Video</h3>
+<p>https://www.youtube.com/watch?v=BUVmaKDnXaA</p>
+<h2 class="western">Implementace</h2>
+<p>Stručná dokumentace k implementaci, která popisuje, které
+části projektu (např. PHP skripty) implementují jednotlivé
+případy použití.</p>
+<p>AdministrationController.php 	- administrace uživatelů</p>
+<p>SystemsController.php		- správa systémů</p>
+<p>DeviceController.php			- správa zařízení</p>
+<p>RequestController.php		- sdílení systémů</p>
+<p>IndexController.php			- hlavní stránka s přehledem systémů</p>
+<p>BrokerController.php			- editace hodnot zařízení</p>
+<h3 class="western"><br/>
+<br/>
+
+</h3>
+<h3 class="western"><br/>
+<br/>
+
+</h3>
+<h3 class="western">Databáze</h3>
+<p class="msonormal"><img src="Projekt_IIS_html_63643aa14817fa44.png" name="Obrázek1" align="left" width="680" height="619" border="0"/>
+<br/>
+<br/>
+
+</p>
+<h2 class="western">Instalace</h2>
+<ul type="disc">
+	<li><p>nainstalovat LAMP stack (linux server, apache, mysql, php),
+	symfony a composer</p>
+	<li><p>extensions pro php:</p>
+	<ul>
+		<li><p>php-gd php-json php-mbstring php-intl php-mysql php-xml
+		php-zip</p>
+	</ul>
+	<li><p>php &gt;= 8.1, symfony 6</p>
+	<li><p>umístit projekt do /var/www/html/ (např.: git clone
+	&lt;url_repozitare&gt;)</p>
+	<li><p>nastavit virtualhost</p>
+	<li><p>v .env nastavit sql server</p>
+	<li><p>přidat do databáze uživatele app</p>
+	<li><p>v kořenové složce projektu spustit následující příkazy:</p>
+	<ul>
+		<li><p>composer install</p>
+		<li><p>symfony console doctrine:database:create</p>
+		<li><p>symfony console make:migration</p>
+		<li><p>symfony console doctrine:migrations:migrate</p>
+		<li><p>symfony console doctrine:fixtures:load</p>
+	</ul>
+</ul>
+<h2 class="western">Známé problémy</h2>
+<p>Požadavek na sdílení systému se může poslat víc než jednou
+na stejný systém</p>
+</body>
+</html>
