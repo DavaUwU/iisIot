@@ -7,6 +7,7 @@ use App\Entity\System;
 use App\Form\DeviceAssignFormType;
 use App\Form\SystemFormType;
 use App\Repository\AccountRepository;
+use App\Repository\DeviceRepository;
 use App\Repository\SystemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,13 +21,15 @@ class SystemsController extends AbstractController
     private $em;
     private $systemRepository;
     private $accountRepository;
+    private $deviceRepository;
 
     public function __construct(SystemRepository $systemRepository, AccountRepository $accountRepository,
-                                EntityManagerInterface $em)
+                                DeviceRepository $deviceRepository, EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->systemRepository = $systemRepository;
         $this->accountRepository = $accountRepository;
+        $this->deviceRepository = $deviceRepository;
     }
 
     #[Route('/systems', name: 'app_systems')]
@@ -66,6 +69,22 @@ class SystemsController extends AbstractController
     {
         $system = $this->systemRepository->find($id);
         $this->em->remove($system);
+        $this->em->flush();
+
+        return  $this->redirectToRoute('app_systems');
+    }
+
+    #[Route('/systems/device/delete/', name: 'delete_device_from_system', methods: ['GET', 'DELETE'])]
+    public function deleteDeviceFromSystem(Request $request): Response
+    {
+        $deviceId = $request->query->get('deviceId');
+        $systemId = $request->query->get('systemId');
+
+        $system = $this->systemRepository->find($systemId);
+        $device = $this->deviceRepository->find($deviceId);
+        $system->removeDevice($device);
+
+        $this->em->persist($system);
         $this->em->flush();
 
         return  $this->redirectToRoute('app_systems');

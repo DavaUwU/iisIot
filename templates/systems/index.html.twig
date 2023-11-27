@@ -64,7 +64,8 @@
                 <td>
                     <ul>
                         {% for device in system.devices %}
-                            <li>{{ device.label }}</li>
+                            <li>{{ device.label }} <a href="{{ path('delete_device_from_system',
+                                    {'systemId': system.id, 'deviceId': device.id})}}">Delete</a></li>
                         {% else %}
                             <li>No devices assigned</li>
                         {% endfor %}

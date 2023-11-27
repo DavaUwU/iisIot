@@ -33,7 +33,6 @@ class AccountFormType extends AbstractType
             ])
             ->add('email')
             ->add('phone')
-            ->add('bAdmin')
         ;
     }
 
