@@ -63,7 +63,7 @@
                 <td>{{ system.name }}</td>
                 <td>{{ system.description }}</td>
                 <td>{{ system.owner.username }}</td>
-                {% if app.user %}
+                {% if (is_granted('ROLE_USER') and not is_granted('ROLE_BROKER')) or is_granted('ROLE_ADMIN')%}
                     <td><a href="{{ path('request_create', {'id': system.id})}}" class="share-button">Request sharing</a></td>
                 {% endif %}
             </tr>
