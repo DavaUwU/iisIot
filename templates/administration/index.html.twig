@@ -47,7 +47,7 @@
                 <td><a href="{{ path('administration_userEdit', {'id': user.id}) }}">{{ user.username }}</a></td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone }}</td>
-                <td>{{ user.bAdmin ? "Yes" : "No" }}</td>
+                <td>{{ is_granted('ROLE_ADMIN', user) ? "Yes" : "No" }}</td>
             </tr>
         {% else %}
             <tr>

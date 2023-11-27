@@ -21,7 +21,7 @@ class AccountFixtures extends Fixture
         // $manager->persist($product);
         $account = new Account();
         $account->setUsername('admin');
-        $account->setBAdmin(true);
+        $account->setRoles(['ROLE_ADMIN']);
         $account->setPassword(
             $this->userPasswordHasher->hashPassword(
                 $account,
